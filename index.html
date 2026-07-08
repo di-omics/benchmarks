@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>di-omics · autonomous-lab benchmark scoreboard</title>
+<title>di-omics · how each capability is evaluated</title>
 <style>
   :root {
     --bg: #eef2f3; --surface: #ffffff; --surface-2: #f4f7f8; --border: #d6dee0; --border-strong: #c2cdd0;
@@ -117,27 +117,27 @@
 <body>
 <div class="wrap">
   <div class="channel-rule"></div>
-  <p class="eyebrow">di-omics · autonomous-lab benchmark scoreboard</p>
-  <h1>Two bars, both high.</h1>
-  <p class="tldr">An <b>autonomous lab, trained by a domain expert to hit senior-scientist bars</b>: a <b>preset statistical framework</b>, <span class="auto">physical-AI QC</span> baked in, and <span class="auto">closed-loop feedback control with agentic feedback</span>. The bar to clear is the <span class="sci">physical biology and chemistry</span> and the <span class="sci">bioinformatics</span>, both proven. Not a green software log. Proof, or it does not count.</p>
+  <p class="eyebrow">di-omics · evaluation notes</p>
+  <h1>How each capability is evaluated.</h1>
+  <p class="tldr">Each repo in the portfolio is checked on two axes: whether the <span class="sci">science holds</span> (the physical biology and chemistry, and the bioinformatics, against a metric fixed before the run) and whether it <span class="auto">runs unattended</span> (QC in the loop, error handling, agentic feedback). Physical execution is measured with Rhodamine B, Qubit, and computer vision, not inferred from a software log. Numbers are sourced or marked pending, never invented.</p>
 
-  <h2 class="sec">The two bars</h2>
+  <h2 class="sec">Two axes</h2>
   <div class="bars">
     <div class="bar sci">
-      <div class="tag">Bar 1 · Science</div>
-      <h3>The result is real.</h3>
+      <div class="tag">Axis 1 · Science</div>
+      <h3>Does the science hold?</h3>
       <p>The physical biology and chemistry executed correctly, and the bioinformatics recovers ground truth. Scored on a statistical framework fixed before the run.</p>
       <div class="rules"><b>Rules out:</b> passing in silico while the wet step silently failed. Physical execution is verified, never assumed.</div>
     </div>
     <div class="bar auto">
-      <div class="tag">Bar 2 · Autonomy</div>
-      <h3>The machine did it, unattended.</h3>
+      <div class="tag">Axis 2 · Autonomy</div>
+      <h3>Does it run unattended?</h3>
       <p>Physical-AI QC baked in, error handling that fails closed, and closed-loop feedback where the agent reads QC, corrects, and re-runs.</p>
       <div class="rules"><b>Rules out:</b> a demo that only works with a human quietly saving it. The loop has to close on its own.</div>
     </div>
   </div>
 
-  <h2 class="sec">The infra that proves it</h2>
+  <h2 class="sec">The infrastructure behind the checks</h2>
   <div class="pillars">
     <div class="pillar">
       <span class="pt">Liquid-handling QC</span>
