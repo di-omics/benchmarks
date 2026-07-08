@@ -3,246 +3,328 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>di-omics · how each capability is evaluated</title>
+<title>di-omics &middot; how each capability is evaluated</title>
 <style>
   :root {
-    --bg: #eef2f3; --surface: #ffffff; --surface-2: #f4f7f8; --border: #d6dee0; --border-strong: #c2cdd0;
-    --ink: #0e1518; --ink-soft: #45555b; --ink-faint: #7d8b90;
-    --sci: #c4176d; --sci-wash: rgba(196,23,109,0.08);      /* science / bio channel, rhodamine */
-    --auto: #0b8f97; --auto-wash: rgba(11,143,151,0.09);    /* autonomy / AI channel, instrument cyan */
-    --pass: #1f9d57; --pass-wash: rgba(31,157,87,0.12);
-    --build: #b47c0d; --build-wash: rgba(180,124,13,0.12);
-    --shadow: 0 1px 2px rgba(14,21,24,0.06), 0 8px 24px rgba(14,21,24,0.05);
-    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, Consolas, monospace;
-    --font-body: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --paper: #f5f4ef;
+    --surface: #fbfaf6;
+    --ink: #191917;
+    --ink-soft: #5f5f57;
+    --ink-faint: #928f84;
+    --green: #4e9d5e;
+    --green-deep: #3c8a4c;
+    --green-soft: #a9cba6;
+    --green-wash: rgba(78,157,94,0.10);
+    --rule: #e4e1d7;
+    --rule-strong: #d3cfc2;
+    --font: "Avenir Next", "Avenir", "Futura", "Century Gothic", ui-rounded, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --bg: #0a0f12; --surface: #111a1e; --surface-2: #162126; --border: #253439; --border-strong: #32454b;
-      --ink: #e9eff1; --ink-soft: #a2b2b7; --ink-faint: #64757a;
-      --sci: #ff479f; --sci-wash: rgba(255,71,159,0.12); --auto: #2ad3dc; --auto-wash: rgba(42,211,220,0.13);
-      --pass: #38d67c; --pass-wash: rgba(56,214,124,0.15); --build: #e6ab34; --build-wash: rgba(230,171,52,0.15);
-      --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 12px 32px rgba(0,0,0,0.45);
+      --paper: #17171380; --paper: #161612; --surface: #1e1e19; --ink: #f1f0e8; --ink-soft: #b3b1a4; --ink-faint: #817f73;
+      --green: #6cbf7c; --green-deep: #86d094; --green-soft: #3f6b45; --green-wash: rgba(108,191,124,0.12);
+      --rule: #2c2c25; --rule-strong: #3a3a31;
     }
   }
   :root[data-theme="light"] {
-    --bg: #eef2f3; --surface: #ffffff; --surface-2: #f4f7f8; --border: #d6dee0; --border-strong: #c2cdd0;
-    --ink: #0e1518; --ink-soft: #45555b; --ink-faint: #7d8b90;
-    --sci: #c4176d; --sci-wash: rgba(196,23,109,0.08); --auto: #0b8f97; --auto-wash: rgba(11,143,151,0.09);
-    --pass: #1f9d57; --pass-wash: rgba(31,157,87,0.12); --build: #b47c0d; --build-wash: rgba(180,124,13,0.12);
-    --shadow: 0 1px 2px rgba(14,21,24,0.06), 0 8px 24px rgba(14,21,24,0.05);
+    --paper: #f5f4ef; --surface: #fbfaf6; --ink: #191917; --ink-soft: #5f5f57; --ink-faint: #928f84;
+    --green: #4e9d5e; --green-deep: #3c8a4c; --green-soft: #a9cba6; --green-wash: rgba(78,157,94,0.10);
+    --rule: #e4e1d7; --rule-strong: #d3cfc2;
   }
   :root[data-theme="dark"] {
-    --bg: #0a0f12; --surface: #111a1e; --surface-2: #162126; --border: #253439; --border-strong: #32454b;
-    --ink: #e9eff1; --ink-soft: #a2b2b7; --ink-faint: #64757a;
-    --sci: #ff479f; --sci-wash: rgba(255,71,159,0.12); --auto: #2ad3dc; --auto-wash: rgba(42,211,220,0.13);
-    --pass: #38d67c; --pass-wash: rgba(56,214,124,0.15); --build: #e6ab34; --build-wash: rgba(230,171,52,0.15);
-    --shadow: 0 1px 2px rgba(0,0,0,0.4), 0 12px 32px rgba(0,0,0,0.45);
+    --paper: #161612; --surface: #1e1e19; --ink: #f1f0e8; --ink-soft: #b3b1a4; --ink-faint: #817f73;
+    --green: #6cbf7c; --green-deep: #86d094; --green-soft: #3f6b45; --green-wash: rgba(108,191,124,0.12);
+    --rule: #2c2c25; --rule-strong: #3a3a31;
   }
 
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); line-height: 1.5; -webkit-font-smoothing: antialiased; }
-  .wrap { max-width: 1120px; margin: 0 auto; padding: clamp(20px, 4vw, 52px) clamp(16px, 4vw, 40px) 64px; }
-  .channel-rule { height: 3px; border-radius: 3px; background: linear-gradient(90deg, var(--sci), var(--auto)); margin-bottom: 26px; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--font); font-weight: 400; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  .shell { max-width: 1180px; margin: 0 auto; padding: 0 clamp(20px, 5vw, 56px); }
+  a { color: inherit; }
 
-  .eyebrow { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-faint); margin: 0 0 10px; }
-  h1 { font-family: var(--font-mono); font-weight: 600; font-size: clamp(26px, 5vw, 38px); letter-spacing: -0.015em; margin: 0 0 14px; text-wrap: balance; }
-  .tldr { max-width: 68ch; color: var(--ink-soft); font-size: 15.5px; margin: 0; }
-  .tldr b { color: var(--ink); font-weight: 600; }
-  .tldr .sci { color: var(--sci); font-weight: 600; }
-  .tldr .auto { color: var(--auto); font-weight: 600; }
+  /* nav */
+  nav { display: flex; align-items: center; justify-content: space-between; padding: 26px 0 18px; gap: 20px; }
+  .logo { font-size: 20px; font-weight: 600; letter-spacing: 0.34em; color: var(--ink); text-decoration: none; }
+  .nav-links { display: flex; gap: 30px; align-items: center; margin-left: auto; }
+  .nav-links a { font-size: 14.5px; color: var(--ink-soft); text-decoration: none; transition: color .15s; }
+  .nav-links a:hover { color: var(--ink); }
+  .pill { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 11px 22px; font-size: 14.5px; font-weight: 600; text-decoration: none; border: 1.5px solid var(--green); transition: all .15s; white-space: nowrap; }
+  .pill.solid { background: var(--green); color: #fff; }
+  .pill.solid:hover { background: var(--green-deep); border-color: var(--green-deep); }
+  .pill.ghost { background: transparent; color: var(--green-deep); }
+  .pill.ghost:hover { background: var(--green-wash); }
+  :root[data-theme="dark"] .pill.solid, @media (prefers-color-scheme: dark) { }
+  .rule { height: 1px; background: var(--rule); border: 0; margin: 0; }
 
-  h2.sec { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); margin: 40px 0 14px; font-weight: 600; }
+  /* meta strip */
+  .meta { display: grid; grid-template-columns: 1fr 1fr 1fr; }
+  .meta div { padding: 15px 0; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-faint); }
+  .meta div:nth-child(2) { text-align: center; }
+  .meta div:nth-child(3) { text-align: right; }
 
-  /* two-bar definition cards */
-  .bars { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
-  .bar { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 20px 22px; box-shadow: var(--shadow); border-top: 3px solid var(--c); }
-  .bar.sci { --c: var(--sci); } .bar.auto { --c: var(--auto); }
-  .bar .tag { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--c); }
-  .bar h3 { font-size: 17px; margin: 6px 0 8px; letter-spacing: -0.01em; }
-  .bar p { margin: 0 0 10px; font-size: 14px; color: var(--ink-soft); }
-  .bar .rules { font-size: 13px; color: var(--ink-faint); border-top: 1px dashed var(--border-strong); padding-top: 10px; }
-  .bar .rules b { color: var(--ink-soft); font-weight: 600; }
+  /* hero */
+  .hero { display: grid; grid-template-columns: 1.35fr 1fr; gap: 40px; align-items: center; padding: clamp(48px, 8vw, 92px) 0 clamp(40px, 6vw, 72px); }
+  .eyebrow { font-size: 13px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--green); font-weight: 600; margin: 0 0 26px; }
+  h1 { font-size: clamp(44px, 8vw, 82px); line-height: 0.98; letter-spacing: -0.02em; font-weight: 400; margin: 0 0 28px; text-wrap: balance; }
+  h1 b { font-weight: 700; }
+  .sub { font-size: clamp(17px, 2vw, 20px); color: var(--ink-soft); max-width: 34ch; margin: 0 0 34px; line-height: 1.45; }
+  .sub .hl { color: var(--green-deep); font-weight: 600; }
+  .cta-row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .cta-row .pill { padding: 14px 28px; font-size: 15px; }
+  .hero-art { display: flex; justify-content: center; }
+  .hero-art svg { width: 100%; max-width: 340px; height: auto; }
 
-  /* infra pillars */
-  .pillars { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(215px, 1fr)); }
-  .pillar { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 15px 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 8px; }
-  .pillar .pt { font-family: var(--font-mono); font-size: 12.5px; font-weight: 600; color: var(--ink); }
-  .pillar .pd { font-size: 12.5px; color: var(--ink-soft); flex: 1; }
+  /* sections */
+  section { padding: clamp(44px, 6vw, 72px) 0; }
+  .sec-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 34px; }
+  .sec-num { font-size: 13px; letter-spacing: 0.16em; color: var(--green); font-weight: 600; }
+  h2 { font-size: clamp(26px, 4vw, 38px); font-weight: 400; letter-spacing: -0.015em; margin: 0; }
+  h2 b { font-weight: 700; }
 
-  /* state chips */
-  .chip { display: inline-flex; align-items: center; gap: 7px; font-family: var(--font-mono); font-size: 10.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; padding: 3px 9px; border-radius: 999px; border: 1px solid transparent; white-space: nowrap; align-self: flex-start; }
-  .chip .dot { width: 7px; height: 7px; border-radius: 50%; flex: none; }
-  .chip.verified { color: var(--pass); background: var(--pass-wash); border-color: color-mix(in srgb, var(--pass) 35%, transparent); }
-  .chip.verified .dot { background: var(--pass); box-shadow: 0 0 0 3px var(--pass-wash); animation: pulse 2.6s ease-in-out infinite; }
-  .chip.building { color: var(--build); background: var(--build-wash); border: 1px dashed color-mix(in srgb, var(--build) 45%, transparent); }
-  .chip.building .dot { background: var(--build); }
-  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.45; } }
-  @media (prefers-reduced-motion: reduce) { .chip.verified .dot { animation: none; } }
+  /* two axes cards */
+  .axes { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .axis { background: var(--surface); border: 1px solid var(--rule); border-radius: 18px; padding: 30px 30px 26px; }
+  .axis .tag { font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); font-weight: 600; }
+  .axis h3 { font-size: 23px; font-weight: 600; margin: 12px 0 12px; letter-spacing: -0.01em; }
+  .axis p { margin: 0 0 16px; color: var(--ink-soft); font-size: 15.5px; }
+  .axis .ro { font-size: 14px; color: var(--ink-faint); border-top: 1px solid var(--rule); padding-top: 14px; }
+  .axis .ro b { color: var(--ink-soft); font-weight: 600; }
+
+  /* infrastructure list */
+  .infra { display: grid; grid-template-columns: 1fr 1fr; gap: 0 48px; }
+  .pillar { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; align-items: start; padding: 20px 0; border-bottom: 1px solid var(--rule); }
+  .pillar .pn { font-size: 17px; font-weight: 600; }
+  .pillar .pd { grid-column: 1 / 2; font-size: 14.5px; color: var(--ink-soft); }
+  .state { display: inline-flex; align-items: center; gap: 8px; font-size: 12.5px; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; white-space: nowrap; }
+  .state .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .state.ok { color: var(--green-deep); } .state.ok .dot { background: var(--green); }
+  .state.build { color: var(--ink-faint); } .state.build .dot { background: transparent; border: 1.5px solid var(--ink-faint); }
 
   /* guardrails */
-  .guard { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--sci); border-radius: 12px; padding: 18px 22px; box-shadow: var(--shadow); }
-  .guard .gh { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--sci); margin-bottom: 10px; }
-  .guard ul { margin: 0; padding-left: 18px; }
-  .guard li { font-size: 14px; color: var(--ink-soft); margin-bottom: 7px; }
-  .guard li b { color: var(--ink); font-weight: 600; }
+  .guards { list-style: none; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .guards li { display: grid; grid-template-columns: auto 1fr; gap: 18px; align-items: start; font-size: 16px; color: var(--ink-soft); }
+  .guards .g-mark { width: 30px; height: 30px; flex: none; }
+  .guards b { color: var(--ink); font-weight: 600; }
 
-  /* matrix */
-  .table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 14px; background: var(--surface); box-shadow: var(--shadow); }
-  table { border-collapse: collapse; width: 100%; min-width: 880px; }
-  th, td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--border); }
-  thead .grp th { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.13em; text-transform: uppercase; }
-  thead .grp .g-sci { color: var(--sci); background: var(--sci-wash); }
-  thead .grp .g-auto { color: var(--auto); background: var(--auto-wash); }
-  thead .grp .g-plain { color: var(--ink-faint); }
-  tbody tr:last-child td { border-bottom: none; }
-  tbody tr:hover td { background: var(--surface-2); }
-  td.sci-cell { background: var(--sci-wash); } td.auto-cell { background: var(--auto-wash); }
-  .repo { font-family: var(--font-mono); font-weight: 600; font-size: 13.5px; color: var(--ink); text-decoration: none; }
-  .repo:hover { color: var(--auto); text-decoration: underline; }
-  .repo:focus-visible { outline: 2px solid var(--auto); outline-offset: 2px; border-radius: 3px; }
-  .repo-sub { font-size: 12px; color: var(--ink-faint); margin-top: 3px; max-width: 22ch; }
-  .metric { font-size: 12.5px; color: var(--ink-soft); margin-bottom: 8px; max-width: 27ch; }
-  .grader { font-size: 12.5px; color: var(--ink-soft); max-width: 20ch; }
-  .grader .mono { font-family: var(--font-mono); font-size: 11.5px; color: var(--ink); }
-  .pill { display: inline-block; font-family: var(--font-mono); font-size: 11px; padding: 3px 8px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--border); color: var(--ink-soft); white-space: nowrap; }
-  .pill.none { color: var(--ink-faint); }
+  /* status table */
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 720px; }
+  th, td { text-align: left; vertical-align: top; padding: 18px 18px 18px 0; border-bottom: 1px solid var(--rule); }
+  thead th { font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-faint); font-weight: 600; padding-top: 0; }
+  .cap { font-size: 16.5px; font-weight: 600; color: var(--ink); text-decoration: none; }
+  .cap:hover { color: var(--green-deep); }
+  .cap-sub { font-size: 13px; color: var(--ink-faint); margin-top: 3px; }
+  .cell { font-size: 14px; color: var(--ink-soft); max-width: 30ch; }
+  .cell .state { margin-top: 8px; }
+  .who { font-size: 13.5px; color: var(--ink-faint); }
 
-  footer { margin-top: 26px; font-size: 12.5px; color: var(--ink-faint); max-width: 74ch; }
-  footer b { color: var(--ink-soft); }
-  .fail-closed { font-family: var(--font-mono); color: var(--sci); }
-  a.src { color: var(--auto); text-decoration: none; } a.src:hover { text-decoration: underline; }
+  footer { padding: 44px 0 72px; border-top: 1px solid var(--rule); font-size: 14px; color: var(--ink-faint); }
+  footer p { max-width: 76ch; margin: 0 0 10px; }
+  footer b { color: var(--ink-soft); font-weight: 600; }
+  footer a { color: var(--green-deep); text-decoration: none; } footer a:hover { text-decoration: underline; }
+
+  a:focus-visible, .pill:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; border-radius: 4px; }
+
+  @media (max-width: 860px) {
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; gap: 8px; }
+    .hero-art { order: -1; justify-content: flex-start; }
+    .hero-art svg { max-width: 200px; }
+    .axes, .infra { grid-template-columns: 1fr; }
+    .meta div { font-size: 10.5px; letter-spacing: 0.12em; }
+  }
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="channel-rule"></div>
-  <p class="eyebrow">di-omics · evaluation notes</p>
-  <h1>How each capability is evaluated.</h1>
-  <p class="tldr">Each repo in the portfolio is checked on two axes: whether the <span class="sci">science holds</span> (the physical biology and chemistry, and the bioinformatics, against a metric fixed before the run) and whether it <span class="auto">runs unattended</span> (QC in the loop, error handling, agentic feedback). Physical execution is measured with Rhodamine B, Qubit, and computer vision, not inferred from a software log. Numbers are sourced or marked pending, never invented.</p>
-
-  <h2 class="sec">Two axes</h2>
-  <div class="bars">
-    <div class="bar sci">
-      <div class="tag">Axis 1 · Science</div>
-      <h3>Does the science hold?</h3>
-      <p>The physical biology and chemistry executed correctly, and the bioinformatics recovers ground truth. Scored on a statistical framework fixed before the run.</p>
-      <div class="rules"><b>Rules out:</b> passing in silico while the wet step silently failed. Physical execution is verified, never assumed.</div>
+<div class="shell">
+  <nav>
+    <a class="logo" href="https://github.com/di-omics">DI &middot; OMICS</a>
+    <div class="nav-links">
+      <a href="#axes">Two axes</a>
+      <a href="#infra">Infrastructure</a>
+      <a href="#guardrails">Guardrails</a>
+      <a href="#status">Status</a>
     </div>
-    <div class="bar auto">
-      <div class="tag">Axis 2 · Autonomy</div>
-      <h3>Does it run unattended?</h3>
-      <p>Physical-AI QC baked in, error handling that fails closed, and closed-loop feedback where the agent reads QC, corrects, and re-runs.</p>
-      <div class="rules"><b>Rules out:</b> a demo that only works with a human quietly saving it. The loop has to close on its own.</div>
+    <a class="pill solid" href="https://github.com/di-omics/benchmarks">View the repo</a>
+  </nav>
+  <hr class="rule" />
+  <div class="meta">
+    <div>Autonomous omics</div>
+    <div>Evaluated, not asserted</div>
+    <div>di-omics / github</div>
+  </div>
+  <hr class="rule" />
+
+  <div class="hero">
+    <div>
+      <p class="eyebrow">How each capability is evaluated</p>
+      <h1>Measured,<br /><b>not asserted.</b></h1>
+      <p class="sub">Each repo is checked on two axes: whether the science holds and whether it runs unattended. Physical execution is measured with Rhodamine B, Qubit, and computer vision, <span class="hl">never inferred from a software log</span>.</p>
+      <div class="cta-row">
+        <a class="pill solid" href="#axes">See the method</a>
+        <a class="pill ghost" href="#status">Per-capability status</a>
+      </div>
+    </div>
+    <div class="hero-art">
+      <svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Two overlapping circles crossed by an ellipse with a center point">
+        <circle cx="130" cy="150" r="100" fill="none" stroke="var(--ink)" stroke-width="1.4" />
+        <circle cx="210" cy="150" r="100" fill="none" stroke="var(--ink)" stroke-width="1.4" />
+        <ellipse cx="170" cy="150" rx="128" ry="74" fill="none" stroke="var(--green)" stroke-width="1.6" />
+        <circle cx="170" cy="150" r="6" fill="var(--green)" />
+      </svg>
     </div>
   </div>
+</div>
 
-  <h2 class="sec">The infrastructure behind the checks</h2>
-  <div class="pillars">
-    <div class="pillar">
-      <span class="pt">Liquid-handling QC</span>
-      <span class="pd">Rhodamine B for per-well CV%, Qubit / PicoGreen for yield. Upfront, fail-closed.</span>
-      <span class="chip verified"><span class="dot"></span>Verified</span>
+<hr class="rule" />
+<div class="shell">
+  <section id="axes">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Two <b>axes</b></h2></div>
+    <div class="axes">
+      <div class="axis">
+        <div class="tag">Axis 1 &middot; Science</div>
+        <h3>Does the science hold?</h3>
+        <p>The physical biology and chemistry executed correctly, and the bioinformatics recovers ground truth, against a metric fixed before the run.</p>
+        <div class="ro"><b>Rules out:</b> passing in silico while the wet step silently failed. Physical execution is verified, never assumed.</div>
+      </div>
+      <div class="axis">
+        <div class="tag">Axis 2 &middot; Autonomy</div>
+        <h3>Does it run unattended?</h3>
+        <p>Physical-AI QC in the loop, error handling that fails closed, and closed-loop feedback where the agent reads QC, corrects, and re-runs.</p>
+        <div class="ro"><b>Rules out:</b> a demo that only works with a human quietly saving it. The loop has to close on its own.</div>
+      </div>
     </div>
-    <div class="pillar">
-      <span class="pt">Computer-vision QC</span>
-      <span class="pd">Physical AI reads wells, pipetting, and steps from bench video. Ground-truth-validated.</span>
-      <span class="chip verified"><span class="dot"></span>Verified</span>
-    </div>
-    <div class="pillar">
-      <span class="pt">Error handling</span>
-      <span class="pd">Guards, do-not-over-dry limits, one approval before purchase. Fails closed on readiness.</span>
-      <span class="chip verified"><span class="dot"></span>Verified</span>
-    </div>
-    <div class="pillar">
-      <span class="pt">Robust bioinformatics</span>
-      <span class="pd">Reproducible fastq-to-result pipelines: scanpy, BJ-WGS Nextflow, versioned.</span>
-      <span class="chip verified"><span class="dot"></span>Verified</span>
-    </div>
-    <div class="pillar">
-      <span class="pt">Preset statistics</span>
-      <span class="pd">Metric and acceptance threshold fixed before the run. Plant ground truth, recover, score.</span>
-      <span class="chip verified"><span class="dot"></span>Verified</span>
-    </div>
-    <div class="pillar">
-      <span class="pt">Closed-loop agentic feedback</span>
-      <span class="pd">Agent reads QC and CV, corrects the deck, and re-runs without a human in the path.</span>
-      <span class="chip building"><span class="dot"></span>Building</span>
-    </div>
-  </div>
+  </section>
+</div>
 
-  <h2 class="sec">How we do not get fooled</h2>
-  <div class="guard">
-    <div class="gh">Anti-fooling guardrails</div>
-    <ul>
-      <li><b>Threshold before the run.</b> The metric and the pass line are fixed up front, never chosen after the numbers land.</li>
-      <li><b>Physical execution is measured, not trusted.</b> Rhodamine B, Qubit, and computer vision confirm the wet step actually happened correctly.</li>
-      <li><b>In silico alone does not clear the science bar.</b> A recovery score on synthetic data is a start, not a pass. The chemistry has to be shown.</li>
+<hr class="rule" />
+<div class="shell">
+  <section id="infra">
+    <div class="sec-head"><span class="sec-num">02</span><h2>The infrastructure behind the <b>checks</b></h2></div>
+    <div class="infra">
+      <div class="pillar">
+        <div class="pn">Liquid-handling QC</div>
+        <span class="state ok"><span class="dot"></span>Verified</span>
+        <div class="pd">Rhodamine B for per-well CV%, Qubit or PicoGreen for yield. Upfront, fail-closed.</div>
+      </div>
+      <div class="pillar">
+        <div class="pn">Computer-vision QC</div>
+        <span class="state ok"><span class="dot"></span>Verified</span>
+        <div class="pd">Reads wells, pipetting, and steps from bench video. Ground-truth-validated.</div>
+      </div>
+      <div class="pillar">
+        <div class="pn">Error handling</div>
+        <span class="state ok"><span class="dot"></span>Verified</span>
+        <div class="pd">Guards, do-not-over-dry limits, one approval before purchase. Fails closed on readiness.</div>
+      </div>
+      <div class="pillar">
+        <div class="pn">Robust bioinformatics</div>
+        <span class="state ok"><span class="dot"></span>Verified</span>
+        <div class="pd">Reproducible fastq-to-result pipelines: scanpy, BJ-WGS Nextflow, versioned.</div>
+      </div>
+      <div class="pillar">
+        <div class="pn">Preset statistics</div>
+        <span class="state ok"><span class="dot"></span>Verified</span>
+        <div class="pd">Metric and threshold fixed before the run. Plant ground truth, recover, score.</div>
+      </div>
+      <div class="pillar">
+        <div class="pn">Closed-loop agentic feedback</div>
+        <span class="state build"><span class="dot"></span>Building</span>
+        <div class="pd">Agent reads QC and CV, corrects the deck, and re-runs without a human in the path.</div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<hr class="rule" />
+<div class="shell">
+  <section id="guardrails">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Guardrails against <b>fooling ourselves</b></h2></div>
+    <ul class="guards">
+      <li>
+        <svg class="g-mark" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="none" stroke="var(--ink)" stroke-width="1.2"/><circle cx="19" cy="15" r="9" fill="none" stroke="var(--green)" stroke-width="1.2"/></svg>
+        <div><b>Threshold before the run.</b> The metric and the pass line are fixed up front, never chosen after the numbers land.</div>
+      </li>
+      <li>
+        <svg class="g-mark" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="none" stroke="var(--ink)" stroke-width="1.2"/><circle cx="19" cy="15" r="9" fill="none" stroke="var(--green)" stroke-width="1.2"/></svg>
+        <div><b>Physical execution is measured, not trusted.</b> Rhodamine B, Qubit, and computer vision confirm the wet step actually happened correctly.</div>
+      </li>
+      <li>
+        <svg class="g-mark" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="none" stroke="var(--ink)" stroke-width="1.2"/><circle cx="19" cy="15" r="9" fill="none" stroke="var(--green)" stroke-width="1.2"/></svg>
+        <div><b>In silico alone does not clear the science axis.</b> A recovery score on synthetic data is a start, not a pass.</div>
+      </li>
     </ul>
-  </div>
+  </section>
+</div>
 
-  <h2 class="sec">Per-capability status</h2>
-  <div class="table-wrap">
-    <table>
-      <thead>
-        <tr class="grp">
-          <th class="g-plain">Capability</th>
-          <th class="g-sci">Science bar &middot; physical + bioinformatics</th>
-          <th class="g-auto">Autonomy bar &middot; QC + closed loop</th>
-          <th class="g-plain">Graded by (preset)</th>
-          <th class="g-plain">Expert in loop</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><a class="repo" href="https://github.com/di-omics/fullstack-omics">fullstack-omics</a><div class="repo-sub">FLASH-seq scRNA + single-cell WGS</div></td>
-          <td class="sci-cell"><div class="metric">UMI counts, low-input recovery, coverage; wet chemistry to be run on deck</div><span class="chip building"><span class="dot"></span>Building</span></td>
-          <td class="auto-cell"><div class="metric">End to end in the PyLabRobot simulator; scWGS 10/10 tests</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="grader"><span class="mono">scanpy</span> · <span class="mono">BJ-WGS</span> concordance</td>
-          <td><span class="pill">operator at deck</span></td>
-        </tr>
-        <tr>
-          <td><a class="repo" href="https://github.com/di-omics/plr-mcp">plr-mcp</a><div class="repo-sub">Instruments as agent tools</div></td>
-          <td class="sci-cell"><div class="metric">Actions execute on liquid handler, reader, cycler, shaker</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="auto-cell"><div class="metric">MCP tool-call round-trip; CI green on 3.10-3.13</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="grader">Simulator + hardware handshake</td>
-          <td><span class="pill">agent proposes, operator confirms</span></td>
-        </tr>
-        <tr>
-          <td><a class="repo" href="https://github.com/di-omics/omics-demos">omics-demos</a><div class="repo-sub">Nine scored demos</div></td>
-          <td class="sci-cell"><div class="metric">Recovery vs. planted ground truth across nine assays</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="auto-cell"><div class="metric">Blind run, per-assay recovery score</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="grader">Recovery score, threshold preset</td>
-          <td><span class="pill none">none &middot; automated eval</span></td>
-        </tr>
-        <tr>
-          <td><a class="repo" href="https://github.com/di-omics/plr-minimum-effective">plr-minimum-effective</a><div class="repo-sub">Minimal recipe search</div></td>
-          <td class="sci-cell"><div class="metric">Yield held at reduced reagent; wet confirmation pending</div><span class="chip building"><span class="dot"></span>Building</span></td>
-          <td class="auto-cell"><div class="metric">Bayesian optimization, held-out recovery</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="grader">Cross-validated recovery</td>
-          <td><span class="pill">expert sets acceptance floor</span></td>
-        </tr>
-        <tr>
-          <td><a class="repo" href="https://github.com/di-omics/plr-clarity">plr-clarity</a><div class="repo-sub">(sci)TIP-seq on liquid handler</div></td>
-          <td class="sci-cell"><div class="metric">Rhodamine-B validation ladder on a real deck; biovalidated tier</div><span class="chip building"><span class="dot"></span>Building</span></td>
-          <td class="auto-cell"><div class="metric">Plan text compiled into a runnable method</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="grader">Validation tier reached</td>
-          <td><span class="pill">expert signs each tier</span></td>
-        </tr>
-        <tr>
-          <td><a class="repo" href="https://github.com/di-omics/lab-cv">lab-cv</a><div class="repo-sub">Spatial AI on bench video</div></td>
-          <td class="sci-cell"><div class="metric">Wells filled vs. empty, pipetting correct</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="auto-cell"><div class="metric">ROI motion QC + detection on protocol video, CPU-only</div><span class="chip verified"><span class="dot"></span>Verified</span></td>
-          <td class="grader">Ground-truth-validated frames</td>
-          <td><span class="pill">reviewer adjudicates</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+<hr class="rule" />
+<div class="shell">
+  <section id="status">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Per-capability <b>status</b></h2></div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Capability</th>
+            <th>Science axis</th>
+            <th>Autonomy axis</th>
+            <th>Graded by</th>
+            <th>Expert in loop</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a class="cap" href="https://github.com/di-omics/fullstack-omics">fullstack-omics</a><div class="cap-sub">FLASH-seq scRNA + scWGS</div></td>
+            <td><div class="cell">UMI counts, low-input recovery, coverage; wet chemistry to run on deck<span class="state build"><span class="dot"></span>Building</span></div></td>
+            <td><div class="cell">End to end in the PyLabRobot simulator; scWGS 10/10 tests<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td class="who">scanpy, BJ-WGS concordance</td>
+            <td class="who">operator at deck</td>
+          </tr>
+          <tr>
+            <td><a class="cap" href="https://github.com/di-omics/plr-mcp">plr-mcp</a><div class="cap-sub">Instruments as agent tools</div></td>
+            <td><div class="cell">Actions execute on liquid handler, reader, cycler, shaker<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td><div class="cell">MCP tool-call round-trip; CI green on 3.10-3.13<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td class="who">simulator + hardware handshake</td>
+            <td class="who">agent proposes, operator confirms</td>
+          </tr>
+          <tr>
+            <td><a class="cap" href="https://github.com/di-omics/omics-demos">omics-demos</a><div class="cap-sub">Nine scored demos</div></td>
+            <td><div class="cell">Recovery vs. planted ground truth across nine assays<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td><div class="cell">Blind run, per-assay recovery score<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td class="who">recovery score, threshold preset</td>
+            <td class="who">none, automated eval</td>
+          </tr>
+          <tr>
+            <td><a class="cap" href="https://github.com/di-omics/plr-minimum-effective">plr-minimum-effective</a><div class="cap-sub">Minimal recipe search</div></td>
+            <td><div class="cell">Yield held at reduced reagent; wet confirmation pending<span class="state build"><span class="dot"></span>Building</span></div></td>
+            <td><div class="cell">Bayesian optimization, held-out recovery<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td class="who">cross-validated recovery</td>
+            <td class="who">expert sets acceptance floor</td>
+          </tr>
+          <tr>
+            <td><a class="cap" href="https://github.com/di-omics/plr-clarity">plr-clarity</a><div class="cap-sub">(sci)TIP-seq on liquid handler</div></td>
+            <td><div class="cell">Rhodamine-B validation ladder on a real deck; biovalidated tier<span class="state build"><span class="dot"></span>Building</span></div></td>
+            <td><div class="cell">Plan text compiled into a runnable method<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td class="who">validation tier reached</td>
+            <td class="who">expert signs each tier</td>
+          </tr>
+          <tr>
+            <td><a class="cap" href="https://github.com/di-omics/lab-cv">lab-cv</a><div class="cap-sub">Spatial AI on bench video</div></td>
+            <td><div class="cell">Wells filled vs. empty, pipetting correct<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td><div class="cell">ROI motion QC + detection on protocol video, CPU-only<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td class="who">ground-truth-validated frames</td>
+            <td class="who">reviewer adjudicates</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
 
+<div class="shell">
   <footer>
-    <p><b>Verified</b> is runnable and checkable now. <b>Building</b> means the infra is in place and the wet number is next to land. This board is the daily target: turn one cell Verified with a real run at a time. Numbers are never invented. A Building cell names the metric and waits for a measured value.</p>
-    <p>Source: <a class="src" href="https://github.com/di-omics">github.com/di-omics</a> · <a class="src" href="https://github.com/di-omics/benchmarks">di-omics/benchmarks</a></p>
+    <p><b>Verified</b> is runnable and checkable now. <b>Building</b> means the infrastructure is in place and the wet number is next to land. Numbers are never invented: a Building cell names the metric and waits for a measured value.</p>
+    <p>Source: <a href="https://github.com/di-omics">github.com/di-omics</a> &middot; <a href="https://github.com/di-omics/benchmarks">di-omics/benchmarks</a></p>
   </footer>
 </div>
 </body>

@@ -1,4 +1,4 @@
-# di-omics · evaluation notes
+# di-omics &middot; evaluation notes
 
 How each capability in the [di-omics](https://github.com/di-omics) portfolio is evaluated: the metric it is scored on, the QC that gates it, and which numbers are still pending.
 
