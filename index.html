@@ -21,7 +21,7 @@
   }
   @media (prefers-color-scheme: dark) {
     :root {
-      --paper: #17171380; --paper: #161612; --surface: #1e1e19; --ink: #f1f0e8; --ink-soft: #b3b1a4; --ink-faint: #817f73;
+      --paper: #161612; --surface: #1e1e19; --ink: #f1f0e8; --ink-soft: #b3b1a4; --ink-faint: #817f73;
       --green: #6cbf7c; --green-deep: #86d094; --green-soft: #3f6b45; --green-wash: rgba(108,191,124,0.12);
       --rule: #2c2c25; --rule-strong: #3a3a31;
     }
@@ -53,7 +53,9 @@
   .pill.solid:hover { background: var(--green-deep); border-color: var(--green-deep); }
   .pill.ghost { background: transparent; color: var(--green-deep); }
   .pill.ghost:hover { background: var(--green-wash); }
-  :root[data-theme="dark"] .pill.solid, @media (prefers-color-scheme: dark) { }
+  @media (prefers-color-scheme: dark) { .pill.solid { color: #12140f; } }
+  :root[data-theme="dark"] .pill.solid { color: #12140f; }
+  :root[data-theme="light"] .pill.solid { color: #fff; }
   .rule { height: 1px; background: var(--rule); border: 0; margin: 0; }
 
   /* meta strip */
