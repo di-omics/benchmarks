@@ -19,7 +19,7 @@ Each repo is checked on two axes.
 | Liquid-handling QC | Rhodamine B for per-well CV%, Qubit / PicoGreen for yield. Upfront, fail-closed. | Verified |
 | Computer-vision QC | Reads wells, pipetting, and steps from bench video. Ground-truth-validated. | Verified |
 | Error handling | Guards, do-not-over-dry limits, one approval before purchase. Fails closed on readiness. | Verified |
-| Robust bioinformatics | Reproducible fastq-to-result pipelines: scanpy, BJ-WGS Nextflow, versioned. | Verified |
+| Robust bioinformatics | Reproducible fastq-to-result pipelines: scanpy, WGS analysis Nextflow, versioned. | Verified |
 | Preset statistics | Metric and acceptance threshold fixed before the run. Plant ground truth, recover, score. | Verified |
 | Closed-loop agentic feedback | Agent reads QC and CV, corrects the deck, and re-runs without a human in the path. | Building |
 
@@ -33,7 +33,7 @@ Each repo is checked on two axes.
 
 | Capability | Science axis (physical + bioinformatics) | Autonomy axis (QC + closed loop) | Graded by (preset) | Expert in loop |
 |---|---|---|---|---|
-| [fullstack-omics](https://github.com/di-omics/fullstack-omics) | UMI counts, low-input recovery, coverage; wet chemistry to run on deck. Building | End to end in the PyLabRobot simulator; scWGS 10/10 tests. Verified | scanpy, BJ-WGS concordance | operator at deck |
+| [fullstack-omics](https://github.com/di-omics/fullstack-omics) | UMI counts, low-input recovery, coverage; wet chemistry to run on deck. Building | End to end in the PyLabRobot simulator; scWGS 10/10 tests. Verified | scanpy, WGS analysis concordance | operator at deck |
 | [plr-mcp](https://github.com/di-omics/plr-mcp) | Actions execute on liquid handler, reader, cycler, shaker. Verified | MCP tool-call round-trip; CI green on 3.10-3.13. Verified | simulator + hardware handshake | agent proposes, operator confirms |
 | [omics-demos](https://github.com/di-omics/omics-demos) | Recovery vs. planted ground truth across nine assays. Verified | Blind run, per-assay recovery score. Verified | recovery score, threshold preset | none, automated eval |
 | [plr-minimum-effective](https://github.com/di-omics/plr-minimum-effective) | Yield held at reduced reagent; wet confirmation pending. Building | Bayesian optimization, held-out recovery. Verified | cross-validated recovery | expert sets acceptance floor |
