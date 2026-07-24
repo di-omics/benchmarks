@@ -162,7 +162,7 @@
     <div>
       <p class="eyebrow">How each capability is evaluated</p>
       <h1>Measured,<br /><b>not asserted.</b></h1>
-      <p class="sub">Each repo is checked on two axes: whether the science holds and whether it runs unattended. Physical execution is measured with Rhodamine B, Qubit, and computer vision, <span class="hl">never inferred from a software log</span>.</p>
+      <p class="sub">Each repo is checked on two axes: whether the science holds and whether it runs unattended. Physical execution is measured with Rhodamine B, fluorometric yield QC, and computer vision, <span class="hl">never inferred from a software log</span>.</p>
       <div class="cta-row">
         <a class="pill solid" href="#axes">See the method</a>
         <a class="pill ghost" href="#status">Per-capability status</a>
@@ -208,7 +208,7 @@
       <div class="pillar">
         <div class="pn">Liquid-handling QC</div>
         <span class="state ok"><span class="dot"></span>Verified</span>
-        <div class="pd">Rhodamine B for per-well CV%, Qubit or PicoGreen for yield. Upfront, fail-closed.</div>
+        <div class="pd">Rhodamine B for per-well CV% and fluorometric dsDNA yield QC. Upfront, fail-closed.</div>
       </div>
       <div class="pillar">
         <div class="pn">Computer-vision QC</div>
@@ -223,7 +223,7 @@
       <div class="pillar">
         <div class="pn">Robust bioinformatics</div>
         <span class="state ok"><span class="dot"></span>Verified</span>
-        <div class="pd">Reproducible fastq-to-result pipelines: scanpy, WGS analysis Nextflow, versioned.</div>
+        <div class="pd">Runtime-configured scRNA-seq and WGS analysis handoffs with versioned interfaces.</div>
       </div>
       <div class="pillar">
         <div class="pn">Preset statistics</div>
@@ -250,7 +250,7 @@
       </li>
       <li>
         <svg class="g-mark" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="none" stroke="var(--ink)" stroke-width="1.2"/><circle cx="19" cy="15" r="9" fill="none" stroke="var(--green)" stroke-width="1.2"/></svg>
-        <div><b>Physical execution is measured, not trusted.</b> Rhodamine B, Qubit, and computer vision confirm the wet step actually happened correctly.</div>
+        <div><b>Physical execution is measured, not trusted.</b> Rhodamine B, fluorometric yield QC, and computer vision confirm the wet step actually happened correctly.</div>
       </li>
       <li>
         <svg class="g-mark" viewBox="0 0 30 30" aria-hidden="true"><circle cx="11" cy="15" r="9" fill="none" stroke="var(--ink)" stroke-width="1.2"/><circle cx="19" cy="15" r="9" fill="none" stroke="var(--green)" stroke-width="1.2"/></svg>
@@ -277,11 +277,11 @@
         </thead>
         <tbody>
           <tr>
-            <td><a class="cap" href="https://github.com/di-omics/fullstack-omics">fullstack-omics</a><div class="cap-sub">FLASH-seq scRNA + scWGS</div></td>
-            <td><div class="cell">UMI counts, low-input recovery, coverage; wet chemistry to run on deck<span class="state build"><span class="dot"></span>Building</span></div></td>
-            <td><div class="cell">End to end in the PyLabRobot simulator; scWGS 10/10 tests<span class="state ok"><span class="dot"></span>Verified</span></div></td>
-            <td class="who">scanpy, WGS analysis concordance</td>
-            <td class="who">operator at deck</td>
+            <td><a class="cap" href="https://github.com/di-omics/fullstack-omics">fullstack-omics</a><div class="cap-sub">scRNA-seq + single-cell WGS</div></td>
+            <td><div class="cell">Synthetic workflow-state outputs and analysis contracts; no physical-chemistry claim<span class="state build"><span class="dot"></span>Simulation only</span></div></td>
+            <td><div class="cell">Deterministic scRNA-seq and single-cell WGS state simulators; 21/21 tests<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td class="who">state-machine checks + handoff validation</td>
+            <td class="who">operator supplies any laboratory-owned adapter</td>
           </tr>
           <tr>
             <td><a class="cap" href="https://github.com/di-omics/plr-mcp">plr-mcp</a><div class="cap-sub">Instruments as agent tools</div></td>
@@ -305,9 +305,9 @@
             <td class="who">expert sets acceptance floor</td>
           </tr>
           <tr>
-            <td><a class="cap" href="https://github.com/di-omics/plr-clarity">plr-clarity</a><div class="cap-sub">(sci)TIP-seq on liquid handler</div></td>
-            <td><div class="cell">Rhodamine-B validation ladder on a real deck; biovalidated tier<span class="state build"><span class="dot"></span>Building</span></div></td>
-            <td><div class="cell">Plan text compiled into a runnable method<span class="state ok"><span class="dot"></span>Verified</span></div></td>
+            <td><a class="cap" href="https://github.com/di-omics/plr-epigenome">plr-epigenome</a><div class="cap-sub">(sci)TIP-seq on liquid handler</div></td>
+            <td><div class="cell">TIP-seq and epigenomic protocol simulation; paired liquid evidence pending<span class="state build"><span class="dot"></span>Building</span></div></td>
+            <td><div class="cell">Protocol compiler + fail-closed validation framework; 70/70 tests<span class="state ok"><span class="dot"></span>Verified</span></div></td>
             <td class="who">validation tier reached</td>
             <td class="who">expert signs each tier</td>
           </tr>
