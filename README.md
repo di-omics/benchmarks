@@ -37,7 +37,7 @@ Each repo is checked on two axes.
 | [plr-mcp](https://github.com/di-omics/plr-mcp) | Actions execute on liquid handler, reader, cycler, shaker. Verified | MCP tool-call round-trip; CI green on 3.10-3.13. Verified | simulator + hardware handshake | agent proposes, operator confirms |
 | [omics-demos](https://github.com/di-omics/omics-demos) | Recovery vs. planted ground truth across nine assays. Verified | Blind run, per-assay recovery score. Verified | recovery score, threshold preset | none, automated eval |
 | [plr-minimum-effective](https://github.com/di-omics/plr-minimum-effective) | Yield held at reduced reagent; wet confirmation pending. Building | Bayesian optimization, held-out recovery. Verified | cross-validated recovery | expert sets acceptance floor |
-| [plr-epigenome](https://github.com/di-omics/plr-epigenome) | TIP-seq and epigenomic protocol simulation; paired liquid evidence pending. Building | Protocol compiler + fail-closed validation framework; 70/70 tests. Verified | validation tier reached | expert signs each tier |
+| `plr-epigenome` (private) | TIP-seq and epigenomic protocol simulation; paired liquid evidence pending. Building | Protocol compiler + fail-closed validation framework; 70/70 tests. Verified | validation tier reached | expert signs each tier |
 | [lab-cv](https://github.com/di-omics/lab-cv) | Wells filled vs. empty, pipetting correct. Verified | ROI motion QC + detection on protocol video, CPU-only. Verified | ground-truth-validated frames | reviewer adjudicates |
 
 Verified is runnable and checkable now. Building means the infrastructure is in place and the wet number is next to land. Numbers are never invented: a Building cell names the metric and waits for a measured value.
